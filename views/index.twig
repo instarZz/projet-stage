@@ -34,27 +34,29 @@
         <thead>
           <tr>
             <th>
-              <i id="add-team" class="fas fa-plus-square"></i>
-              Nom des équipes</th>
+              <i id="add-team" class="fas fa-plus-square"></i>Nom des équipes
+            </th>
           </tr>
         </thead>
         <tbody>
+          {% for team in teamData %}
           <tr>
             <td>
-              Equipe 1
+              {{team.name}}
             </td>
             <td>
               <span class="container-icons">
                 <span class="material-icons icons-delete">
                   delete
                 </span>
-                <span class="material-icons icons-edit js-edit">
+                <span data-team-id="{{team.id}}" class="material-icons icons-edit js-edit">
                   edit
                 </span>
               </span>
             </td>
           </tr>
-          <tr>
+          {% endfor %}
+          {# <tr>
             <td>
               Equipe 2
             </td>
@@ -68,7 +70,7 @@
                 </span>
               </span>
             </td>
-          </tr>
+          </tr> #}
         </tbody>
       </table>
     </div>
