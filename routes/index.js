@@ -1,3 +1,4 @@
+const cookieParser = require('cookie-parser');
 var express = require('express');
 var app = express();
 var router = express.Router();
@@ -49,9 +50,24 @@ router.get('/',async function(req, res, next) {
   });
 });
 
-// router.get('/getTeams',async function(req, res, next) {
-//   res.send();
-// });
+router.get('/getTeam',async function(req, res, next) {
+  const teamId = req.query.id; 
+  const teamData = await getTeam(teamId);
+  res.send(teamData);
+  
+});
+
+async function getTeam(teamId) {
+  const result = await new Promise((resolve, reject) => {
+    db.get('SELECT * FROM Teams WHERE id = $id', {
+      $id : teamId
+    }, (err, data)=>{
+      console.log(data);
+      resolve(data);
+    });
+  });
+  return result;
+}
 
 async function getTeams() {
   const result = await new Promise((resolve, reject) => {
@@ -59,7 +75,7 @@ async function getTeams() {
       resolve(data);
     });
   });
-  console.log(result);
+  // console.log(result);
   return result;
 };
   // db.all('SELECT * FROM Teams', (err, data) => {
