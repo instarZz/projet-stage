@@ -9,14 +9,14 @@ $(document).ready(async function(){
     $containerForm.css({"display":"none"});
 
     $iconsEdit.on('click', function(event){
-        const teamId = $(event.currentTarget).attr("data-team-id");
-        console.log(teamId);
+        // const teamId = $(event.currentTarget).attr("data-team-id");
+        // console.log(teamId);
 
-        const response = await fetch('http://localhost:3000/getTeams', {
-            method: 'GET',
-        });
-        const data = await response.json();
-        console.log(data);
+        // const response = await fetch('http://localhost:3000/getTeams', {
+        //     method: 'GET',
+        // });
+        // const data = await response.json();
+        // console.log(data);
 
         $containerForm.css({"display":"flex"});
         $body.css({"overflow":"hidden"});
