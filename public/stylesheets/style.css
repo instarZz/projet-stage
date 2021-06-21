@@ -127,19 +127,26 @@ form {
   justify-content: center;
   align-items: center;
   background-color: white;
+  padding-top: 60px;
+  padding-bottom: 20px;
+  width: 500px;
   
-  width: 30em;
-  height: 35em;
-  
-  position: absolute;
+  position: relative;
   
   border-radius: 2%;
   box-shadow: 2px 2px 5px grey;
 }
 
 /* INPUT */
+.container-form-icons{
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 40px;
+}
 
 .container-input{
+
   display: flex;
   justify-content: center;
   align-items: center;
@@ -147,8 +154,8 @@ form {
   margin-bottom: 1em;
 }
 
-.container-input>i:first-child{
-  padding-right: 4px;
+.container-input>.container-form-icons>i:first-child{
+  /* margin-right: 10px; */
   font-size: 24px;
 }
 
@@ -158,6 +165,7 @@ form {
   position: relative;
   align-items: center;
   box-sizing: border-box;
+  width: 100%;
 }
 
 .container-elt>label {
@@ -176,12 +184,16 @@ form {
   background-color: #f0f0f0;
   border-top-right-radius: 4px;
   border-top-left-radius: 4px;
+  margin-bottom: 1px;
+  width: 100%;
 }
+
 .container-elt>input:hover {
   background-color: #dfdfdf;
 }
 
 .container-elt>input:focus {
+  margin-bottom: 0;
   border-bottom-color: #6200ee;
   border-width: 2px;
   background-color: #d4d4d4;
@@ -210,7 +222,7 @@ form button:hover {
 }
 
 form button:active {
-  border: none;
+  border-color: transparent;
   background-color: #6200ee;
   color: white;
 }
@@ -220,7 +232,7 @@ form button:active {
   position: absolute;
 
   top: 15px;
-  left: 440px;
+  left: 460px;
   cursor: pointer;
 }
 
