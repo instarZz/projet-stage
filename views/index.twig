@@ -17,14 +17,33 @@
         <span class="material-icons icon-close">
           close
         </span>
-        <label for="">Nom de l'équipe</label>
-        <input data-type="name" class="form-input" type="text">
-        <label for="">Adresse</label>
-        <input data-type="address" class="form-input" type="text">
-        <label for="">Numéro de téléphone</label>
-        <input data-type="phone_number" class="form-input" type="text">
-        <label for="">Email</label>
-        <input data-type="email" class="form-input" type="email">
+        <div class="container-input">
+          <i class="fas fa-user"></i>
+          <div class="container-elt">
+            <input id="nameInput" name="name" data-type="name" class="form-input" type="text">
+            <label class="label-elt" for="nameInput">Nom de l'équipe</label>
+          </div>
+        </div>
+        <div class="container-input">
+          <i class="fas fa-map-marker-alt"></i>          <div class="container-elt">
+            <input id="addressInput" name="address" data-type="address" class="form-input" type="text">
+            <label class="label-elt" for="addressInput">Adresse de l'équipe</label>
+          </div>
+        </div>
+        <div class="container-input">
+          <i class="fas fa-phone"></i>
+          <div class="container-elt">
+            <input id="phoneInput" name="phone-number" data-type="phone_number" class="form-input" type="text">
+            <label class="label-elt" for="phoneInput">Numero de téléphone</label>
+          </div>
+        </div>
+        <div class="container-input">
+          <i class="fas fa-envelope"></i>
+          <div class="container-elt">
+            <input id="emailInput" name="email" data-type="email" class="form-input" type="email">
+            <label class="label-elt" for="emailInput">Numero de téléphone</label>
+          </div>
+        </div>
         <button id="submit-btn" class="btn" type="submit">Mettre à jour</button>
       </form>
   </div>
