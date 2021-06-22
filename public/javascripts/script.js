@@ -85,6 +85,11 @@ $(document).ready(async function(){
         $body.css({"overflow":"auto"});
     });
     
+    $containerForm.on('click',(event) => {
+        if(event.target === $containerForm[0]) {
+            $containerForm.css({"display":"none"});
+        }
+    });
     
     
     
