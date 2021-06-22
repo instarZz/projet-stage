@@ -82,7 +82,11 @@ router.post('/editTeam', async function(req, res, next) {
               }
             });
   });
-  res.send();
+  const teamsData = await getTeams();
+  res.render('common/_table.twig', 
+  { 
+    teamsData: teamsData, 
+  });
 });
 
 async function getTeam(teamId) {

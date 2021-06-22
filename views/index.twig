@@ -57,51 +57,7 @@
       </form>
   </div>
   <div class="big-container">
-    <div class="container-table">
-      <table>
-        <thead>
-          <tr>
-            <th>
-              <i id="add-team" class="fas fa-plus-square"></i>Nom des équipes
-            </th>
-          </tr>
-        </thead>
-        <tbody>
-          {% for team in teamsData %}
-          <tr>
-            <td>
-              {{team.name}}
-            </td>
-            <td>
-              <span class="container-icons">
-                <span class="material-icons icons-delete">
-                  delete
-                </span>
-                <span data-team-id="{{team.id}}" class="material-icons icons-edit js-edit">
-                  edit
-                </span>
-              </span>
-            </td>
-          </tr>
-          {% endfor %}
-          {# <tr>
-            <td>
-              Equipe 2
-            </td>
-            <td>
-              <span class="container-icons">
-                <span class="material-icons icons-delete">
-                  delete
-                </span>
-                <span class="material-icons icons-edit js-edit">
-                  edit
-                </span>
-              </span>
-            </td>
-          </tr> #}
-        </tbody>
-      </table>
-    </div>
+    {% include "common/_table.twig" %}
   </div>
 {% endblock %}
 

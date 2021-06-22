@@ -9,6 +9,7 @@ $(document).ready(async function(){
     $formInput = $('.form-input'),
     $labelElt = $('.label-elt'),
     $containerInput = $('.container-input');
+    let $containerTable = $('.container-table');
     
     // $formInput.on('focus', (event) => {
     //     const $input = $(event.currentTarget);
@@ -114,7 +115,7 @@ $(document).ready(async function(){
         // for(var pair of formData.entries()) {
         //     console.log(pair[0]+ ', '+ pair[1]);
         // }
-        await fetch(`http://localhost:3000/editTeam`, {
+        const response = await fetch(`http://localhost:3000/editTeam`, {
             body: JSON.stringify(formData),
             headers: {
                 'Content-Type': 'application/json',
@@ -123,5 +124,8 @@ $(document).ready(async function(){
             method: "post",
         });
         alert('Success');
+        const htmlTable = await response.text();
+        $containerTable.replaceWith(htmlTable);
+        $containerTable = $('.container-table');
     }); 
 });
