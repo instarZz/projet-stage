@@ -78,6 +78,7 @@ $(document).ready(async function(){
             const val = data[dataType];
             $elt.val(val);
         });
+        $form.attr("data-team-id", teamId);
     };
 
     $iconClose.on('click', function(){
@@ -91,10 +92,36 @@ $(document).ready(async function(){
         }
     });
     
-    
-    
-    
-    
-    
-    
+    $form.on('submit', async e => {
+        e.preventDefault();
+        
+        let formData = {};
+        $formInput.each((i, elt)=>{
+            const $elt = $(elt);
+            const dataType = $elt.attr("data-type");
+            const val = $elt.val();
+            formData[dataType] = val;
+        });
+
+        for(const[key, val] of Object.entries(formData)){
+            console.log(`key: ${key} val: ${val}`);
+        };
+
+        formData['id'] = $form.attr("data-team-id");
+        console.log(formData);
+        // const formData = new FormData($form[0]);
+        // formData.append('id', $form.attr("data-team-id"));
+        // for(var pair of formData.entries()) {
+        //     console.log(pair[0]+ ', '+ pair[1]);
+        // }
+        await fetch(`http://localhost:3000/editTeam`, {
+            body: JSON.stringify(formData),
+            headers: {
+                'Content-Type': 'application/json',
+            //     "Content-Type": "multipart/form-data"
+            },
+            method: "post",
+        });
+        alert('Success');
+    }); 
 });

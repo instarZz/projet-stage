@@ -4,7 +4,9 @@ var app = express();
 var router = express.Router();
 const sqlite3 = require('sqlite3').verbose();
 const dbName = 'db/map_admin.db';
-// const db = new sqlite3.Database(':map_admin:');
+
+app.use(express.static('public'));
+module.exports = router;
 
 /* BDD */
 let db = new sqlite3.Database(dbName, err => {
@@ -57,12 +59,37 @@ router.get('/getTeam',async function(req, res, next) {
   
 });
 
+router.post('/editTeam', async function(req, res, next) {
+  const data = req.body;
+  // await new Promise((resolve, reject)=>{
+  // });
+  const params = {
+    $id: data.id,
+    $name: data.name,
+    $address: data.address,
+    $phoneNumber: data.phone_number,
+    $email: data.email,
+  };
+  
+  await new Promise((resolve, reject) => {
+    db.run(`UPDATE Teams 
+            SET name = $name, address = $address, phone_number = $phoneNumber, email = $email
+            WHERE id = $id `, params, (err)=>{
+              if(err === null){
+                resolve();
+              } else {
+                reject(err);
+              }
+            });
+  });
+  res.send();
+});
+
 async function getTeam(teamId) {
   const result = await new Promise((resolve, reject) => {
     db.get('SELECT * FROM Teams WHERE id = $id', {
       $id : teamId
     }, (err, data)=>{
-      console.log(data);
       resolve(data);
     });
   });
@@ -90,10 +117,10 @@ async function getTeams() {
 
 
 
-router.get('/getTeam', function(req, res, next) {
-  const teamId = req.query.teamId;
-  res.send(getTeam(teamId));
-});
+// router.get('/getTeam', function(req, res, next) {
+//   const teamId = req.query.teamId;
+//   res.send(getTeam(teamId));
+// });
 
 // function getTeam(teamId) {
   
@@ -103,6 +130,4 @@ router.get('/getTeam', function(req, res, next) {
 
 // }
 
-app.use(express.static('public'));
-module.exports = router;
 
