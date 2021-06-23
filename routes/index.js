@@ -12,35 +12,8 @@ module.exports = router;
 let db = new sqlite3.Database(dbName, err => {
   if(err)
     throw err
-  
     console.log('Database stated on ' + dbName);
-
-    // db.run('INSERT INTO Teams(name, email, phone_number, address) VALUES($name, $email, $phone_number, $address)', {
-    //   $id : 2,
-    //   $name : 'Team 3',
-    //   $email : 'test2@test.ez',
-    //   $phone_number : '0866666666',
-    //   $address : '4 rue du quatre',
-    // });
-    // var stmt = db.prepare('INSERT INTO Teams VALUES(?)');
-    // stmt.finalize();
-
-    // db.all('SELECT * FROM Teams', (err, data) => {
-    //   if(err)
-    //     throw err
-
-      // console.log(data);
-    // });
 });
-
-
-
-// db.close(err => {
-//   if(err)
-//     throw err; 
-//     console.log('Database closed.');
-// });
-
 
 /* GET home page. */
 router.get('/',async function(req, res, next) {
@@ -57,6 +30,30 @@ router.get('/getTeam',async function(req, res, next) {
   const teamData = await getTeam(teamId);
   res.send(teamData);
   
+});
+
+router.post('/addTeam',async function(req, res, next) {
+  const data = req.body;
+  const params = {
+    $name: data.name,
+    $address: data.address,
+    $phoneNumber: data.phone_number,
+    $email: data.email,
+  };
+  await new Promise((resolve, reject) => {
+    db.run('INSERT INTO Teams (name, email, phone_number, address) VALUES ($name, $email, $phoneNumber, $address)', params, (err)=>{
+              if(err === null){
+                resolve();
+              } else {
+                reject(err);
+              }
+            });
+  });
+  const teamsData = await getTeams();
+  res.render('common/_table.twig', 
+  { 
+    teamsData: teamsData, 
+  });
 });
 
 router.post('/editTeam', async function(req, res, next) {
