@@ -17,7 +17,7 @@ let db = new sqlite3.Database(dbName, err => {
 
 /* GET home page. */
 router.get('/',async function(req, res, next) {
-  const teamsData = await getTeams();
+  const teamsData = await getTeams();console.log(teamsData);
   res.render('index', 
   { 
     title: 'Pannel Equipes',
@@ -30,6 +30,21 @@ router.get('/getTeam',async function(req, res, next) {
   const teamData = await getTeam(teamId);
   res.send(teamData);
   
+});
+
+router.post('/deleteTeam', async function(req, res, next) {
+  const data = req.body;
+  const params = {
+    $id: data.id,
+    $deletedAt: new Date().toISOString(),
+  };
+  await new Promise((resolve, reject) => {
+    db.run('UPDATE Teams SET deleted_at = $deletedAt WHERE id = $id', params, (err)=>{
+      resolve();
+    });
+  });
+  const teamsData = await getTeams();
+  res.render('common/_table.twig', {teamsData: teamsData});
 });
 
 router.post('/addTeam',async function(req, res, next) {

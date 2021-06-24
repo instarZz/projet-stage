@@ -7,8 +7,10 @@ $(document).ready(async function(){
     $submitBtn = $('#submit-btn'),
     $formInput = $('.form-input'),
     $labelElt = $('.label-elt'),
-    $containerInput = $('.container-input');
+    $containerInput = $('.container-input'),
+    $bigContainer = $('.big-container');
     let $iconsEdit = $('.js-edit'),
+    $iconsDelete = $('.icons-delete'),
     $iconAddTeam = $('#add-team'),
     $containerTable = $('.container-table');
     
@@ -28,7 +30,7 @@ $(document).ready(async function(){
         $form.attr("data-team-id", teamId);
     };
 
-    async function fetchAndUpdateDOM(route, $containerTable,formData) {
+    async function fetchAndUpdateDOM(route, formData) {
         const response = await fetch(`http://localhost:3000/${route}`, {
             body: JSON.stringify(formData),
             headers: {
@@ -37,12 +39,18 @@ $(document).ready(async function(){
             },
             method: "post",
         });
-        alert('Success');
+        // alert('Success');
         const htmlTable = await response.text();
-        $containerTable.replaceWith(htmlTable);
-        $containerTable = $('.container-table');
+        // $containerTable.remove();
+        // const containerTable = document.createElement('div');
+        // $containerTable = $(containerTable);
+        // $containerTable.addClass('container-table');
+        // $containerTable.append(htmlTable);
+        // $bigContainer.append($containerTable);
+        $('.container-table').replaceWith(htmlTable);
         $iconAddTeam = $('#add-team');
         $iconsEdit = $('.js-edit');
+        $iconsDelete = $('.icons-delete');
         attachTableListeners();
     } 
 
@@ -51,6 +59,10 @@ $(document).ready(async function(){
             $containerForm.css({"display":"flex"});
             $submitBtn.html('Enregistrer');
             $body.css({"overflow":"hidden"});
+            $formInput.each((i, elt)=>{
+                const $elt = $(elt);
+                $elt.val('');
+            });
         });
 
         $iconsEdit.on('click', async function(event){       
@@ -60,8 +72,16 @@ $(document).ready(async function(){
             const teamId = $(event.currentTarget).attr("data-team-id");  
             await populateForm(teamId, $formInput);    
         });
+
+        $iconsDelete.on('click', async function(event) {
+            const $iconDelete = $(event.currentTarget);
+            const dataId = $iconDelete.attr('data-team-id');
+            await fetchAndUpdateDOM('deleteTeam', {id: dataId});
+        });
     };
     attachTableListeners();
+
+
 
     $iconClose.on('click', function(){
         $containerForm.css({"display":"none"});
@@ -93,9 +113,9 @@ $(document).ready(async function(){
         formData['id'] = id;
 
         if(id === ''){
-            await fetchAndUpdateDOM('addTeam', $containerTable, formData);
+            await fetchAndUpdateDOM('addTeam', formData);
         } else {            
-            await fetchAndUpdateDOM('editTeam', $containerTable, formData);  
+            await fetchAndUpdateDOM('editTeam', formData);  
         }
     }); 
 });
