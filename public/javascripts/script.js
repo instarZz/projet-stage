@@ -5,14 +5,10 @@ $(document).ready(async function(){
     $iconClose = $('.icon-close'),
     $body = $('body'),
     $submitBtn = $('#submit-btn'),
-    $formInput = $('.form-input'),
-    $labelElt = $('.label-elt'),
-    $containerInput = $('.container-input'),
-    $bigContainer = $('.big-container');
+    $formInput = $('.form-input');
     let $iconsEdit = $('.js-edit'),
     $iconsDelete = $('.icons-delete'),
-    $iconAddTeam = $('#add-team'),
-    $containerTable = $('.container-table');
+    $iconAddTeam = $('#add-team');
     
     $containerForm.css({"display":"none"});
     
@@ -35,18 +31,10 @@ $(document).ready(async function(){
             body: JSON.stringify(formData),
             headers: {
                 'Content-Type': 'application/json',
-                //     "Content-Type": "multipart/form-data"
             },
             method: "post",
         });
-        // alert('Success');
         const htmlTable = await response.text();
-        // $containerTable.remove();
-        // const containerTable = document.createElement('div');
-        // $containerTable = $(containerTable);
-        // $containerTable.addClass('container-table');
-        // $containerTable.append(htmlTable);
-        // $bigContainer.append($containerTable);
         $('.container-table').replaceWith(htmlTable);
         $iconAddTeam = $('#add-team');
         $iconsEdit = $('.js-edit');
@@ -54,14 +42,18 @@ $(document).ready(async function(){
         attachTableListeners();
     } 
 
+    // EVENT LISTENER
+
     function attachTableListeners() {
         $iconAddTeam.on('click', function(){
             $containerForm.css({"display":"flex"});
             $submitBtn.html('Enregistrer');
+            // Empecher le scroll du popup
             $body.css({"overflow":"hidden"});
-            $formInput.each((i, elt)=>{
-                const $elt = $(elt);
-                $elt.val('');
+            // Nettoyer les champs des input
+            $formInput.each((i, input)=>{
+                const $input = $(input);
+                $input.val('');
             });
         });
 
@@ -80,8 +72,6 @@ $(document).ready(async function(){
         });
     };
     attachTableListeners();
-
-
 
     $iconClose.on('click', function(){
         $containerForm.css({"display":"none"});

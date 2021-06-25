@@ -1,21 +1,42 @@
-const cookieParser = require('cookie-parser');
 var express = require('express');
 var app = express();
 var router = express.Router();
 const sqlite3 = require('sqlite3').verbose();
 const dbName = 'db/map_admin.db';
 
+async function getTeam(teamId) {
+  const result = await new Promise((resolve, reject) => {
+    db.get('SELECT * FROM Teams WHERE id = $id', {
+      $id : teamId
+    }, (err, data)=>{
+      resolve(data);
+    });
+  });
+  return result;
+}
+
+async function getTeams() {
+  const result = await new Promise((resolve, reject) => {
+    db.all('SELECT * FROM Teams', (err, data) => {
+      resolve(data);
+    });
+  });
+  return result;
+};
+
+/* BDD */
+
 app.use(express.static('public'));
 module.exports = router;
 
-/* BDD */
-let db = new sqlite3.Database(dbName, err => {
+const db = new sqlite3.Database(dbName, err => {
   if(err)
-    throw err
-    console.log('Database stated on ' + dbName);
+  throw err
+  console.log('Database stated on ' + dbName);
 });
 
-/* GET home page. */
+/* ROUTE */
+
 router.get('/',async function(req, res, next) {
   const teamsData = await getTeams();console.log(teamsData);
   res.render('index', 
@@ -26,15 +47,15 @@ router.get('/',async function(req, res, next) {
 });
 
 router.get('/getTeam',async function(req, res, next) {
-  const teamId = req.query.id; 
-  const teamData = await getTeam(teamId);
+  const teamId = req.query.id,
+  teamData = await getTeam(teamId);
   res.send(teamData);
   
 });
 
 router.post('/deleteTeam', async function(req, res, next) {
-  const data = req.body;
-  const params = {
+  const data = req.body,
+  params = {
     $id: data.id,
     $deletedAt: new Date().toISOString(),
   };
@@ -48,8 +69,8 @@ router.post('/deleteTeam', async function(req, res, next) {
 });
 
 router.post('/addTeam',async function(req, res, next) {
-  const data = req.body;
-  const params = {
+  const data = req.body,
+  params = {
     $name: data.name,
     $address: data.address,
     $phoneNumber: data.phone_number,
@@ -72,10 +93,8 @@ router.post('/addTeam',async function(req, res, next) {
 });
 
 router.post('/editTeam', async function(req, res, next) {
-  const data = req.body;
-  // await new Promise((resolve, reject)=>{
-  // });
-  const params = {
+  const data = req.body,
+  params = {
     $id: data.id,
     $name: data.name,
     $address: data.address,
@@ -100,50 +119,3 @@ router.post('/editTeam', async function(req, res, next) {
     teamsData: teamsData, 
   });
 });
-
-async function getTeam(teamId) {
-  const result = await new Promise((resolve, reject) => {
-    db.get('SELECT * FROM Teams WHERE id = $id', {
-      $id : teamId
-    }, (err, data)=>{
-      resolve(data);
-    });
-  });
-  return result;
-}
-
-async function getTeams() {
-  const result = await new Promise((resolve, reject) => {
-    db.all('SELECT * FROM Teams', (err, data) => {
-      resolve(data);
-    });
-  });
-  // console.log(result);
-  return result;
-};
-  // db.all('SELECT * FROM Teams', (err, data) => {
-  //   if(err)
-  //     throw err
-
-  //   console.log(data);
-  // });
-  // console.log(result);
-  // return result;
-  
-
-
-
-// router.get('/getTeam', function(req, res, next) {
-//   const teamId = req.query.teamId;
-//   res.send(getTeam(teamId));
-// });
-
-// function getTeam(teamId) {
-  
-// }
-
-// function isTeam(){
-
-// }
-
-
